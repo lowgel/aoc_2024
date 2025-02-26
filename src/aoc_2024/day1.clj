@@ -31,7 +31,22 @@
 
 
 ;part 1 solution
-(find-val (seperate (map parse-long (clojure.string/split (slurp "resources/day1input.txt") #"\s+"))))
+(def input  (map parse-long (clojure.string/split (slurp "resources/day1input.txt") #"\s+")))
+(find-val (seperate input))
+
+
+
+;part 2 solution
+(defn sim-score
+  "Takes a vector of two lists. finds the similarity score of the 2 lists"
+  [lists] (let [l1 (first lists)
+                l2 (second lists)
+                freq-map (frequencies l2)
+                ans (reduce #(+ %1 (if (get freq-map %2) (* %2 (get freq-map %2)) 0)) 0 l1)] ans)) ;if statement is a little messy but necessary in case value isnt found in the frequency map
+
+(sim-score (seperate input))
+
+
 
  
 
