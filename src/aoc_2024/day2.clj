@@ -15,28 +15,21 @@
        (clojure.string/split input #"\n")))
 
 
+(defn in-order? [coll]
+  (or (apply < coll) (apply > coll)))
 
-;;-- not fast but really clean to look at :) might fix later
-(defn asc? [coll]
-  (if (= coll (sort coll))
-    true
-    false))
 
-(defn dec? [coll]
-  (if (= coll (reverse (sort coll)))
-    true
-    false))
-;;--
 (defn within1-3? [x y]
   (if (and (not (= x y)) (<= (abs (- x y)) 3))
     true
     false))
+
 (defn close? [coll]
   (let [pairs (partition 2 1 coll)]
     (every? true? (map #(within1-3? (first %) (second %)) pairs)))) 
 
 (defn safe? [coll]
-  (if (and (or (asc? coll) (dec? coll)) (close? coll))
+  (if (and (in-order? coll) (close? coll))
     true
     false))
 
