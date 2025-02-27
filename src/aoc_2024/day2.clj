@@ -1,11 +1,5 @@
 (ns aoc-2024.day2)
-
-(def test-input "7 6 4 2 1
-                 1 2 7 8 9
-                 9 7 6 2 1
-                 1 3 2 4 5
-                 8 6 4 4 1
-                 1 3 6 7 9")
+;;PART 1
 
 (def real-input (slurp "resources/day2input.txt"))
 
@@ -34,6 +28,25 @@
     false))
 
 (defn check-input [input]
-  (reduce #(if (= %2 true) (+ 1 %1) %1) 0 (map safe? (parse-input input))))
+  (count (filter true?  (map safe? (parse-input input)))))
 
-(check-input real-input) ;;answer = 502
+(check-input real-input) ;; => 502
+
+;; PART 2
+(defn get-permutations [input]
+  (for [i (range (+ 1 (count input)))]
+    (keep-indexed #(when (not= %1 i) %2) input)))
+
+(defn p2-safe? [input]
+  (->> input
+       (get-permutations)
+       (map safe?)
+       (filter true?)
+       (first)))
+
+(defn p2-check-input [input]
+  (count (filter true? (map p2-safe? (parse-input input)))))
+
+
+
+(p2-check-input real-input) ;; => 544
