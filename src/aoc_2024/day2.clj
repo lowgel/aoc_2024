@@ -35,7 +35,7 @@
 ;; PART 2
 (defn get-permutations [input]
   (for [i (range (+ 1 (count input)))]
-    (filter #(not= %1 i) input)))
+    (keep-indexed #(when (not= %1 i) %2) input)))
 
 (defn p2-safe? [input]
   (->> input
